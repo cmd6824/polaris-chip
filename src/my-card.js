@@ -13,9 +13,11 @@ export class MyCard extends LitElement {
 
   constructor() {
     super();
-    this.title = "My card";
-    this.img = "#";
-    this.alt = "#";
+    this.title = "Title";
+    this.img = "image";
+    this.alt = "description of image";
+    this.text = "text under the image";
+    this.link = "https://hax.psu.edu";
   }
 
   static get styles() {
@@ -62,9 +64,9 @@ export class MyCard extends LitElement {
       <div class="card-text">
           <h2 class="card-title">${this.title}</h2>
         <div class="card-details">
-          <p>This is what life feels like when you use HAX to create your websites. Perfect for blogging and creates peace within yourself.</p>
+          <p>${this.text}</p>
   <div class="btn-wrapper">
-    <a href="https://hax.psu.edu">
+    <a href=${this.link}>
      <button class="btn">Details</button>
     </a>
   </div>
@@ -78,6 +80,8 @@ export class MyCard extends LitElement {
       title: { type: String },
       img: { type: String },
       alt: { type: String },
+      text: { type: String },
+      link: { type: String },
     };
   }
 }
