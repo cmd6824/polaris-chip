@@ -18,12 +18,20 @@ export class MyCard extends LitElement {
     this.alt = "description of image";
     this.text = "text under the image";
     this.link = "https://hax.psu.edu";
+    this.fancy = false;
   }
 
   static get styles() {
     return css`
       :host {
         display: block;
+      }
+
+      :host([fancy]) {
+        display: block;
+        background-color: pink;
+        border: 2px solid fuchsia;
+        box-shadow: 10px 5px 5px red;
       }
 
       .card {
@@ -35,7 +43,6 @@ export class MyCard extends LitElement {
       }
 
       img {
-        display: block;
         max-width: 100%;
       }
 
@@ -53,26 +60,55 @@ export class MyCard extends LitElement {
         background-color: grey;
       }
 
+      details summary {
+        text-align: left;
+        font-size: 20px;
+        padding: 8px 0;
+      }
+
+      details[open] summary {
+        font-weight: bold;
+      }
     
+      details div {
+        border: 2px solid black;
+        text-align: left;
+        padding: 8px;
+        height: 70px;
+        overflow: auto;
+      }
     `;
+  }
+
+  openChanged(e) {
+    console.log(e.newState);
+    if (e.newState === "open") {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
   }
 
   render() {
     return html`
     <div class="card">
-      <img class="card-image" src=${this.img} alt=${this.alt}>
+      <img class="card-image" src="${this.img}" alt="${this.alt}">
       <div class="card-text">
-          <h2 class="card-title">${this.title}</h2>
-        <div class="card-details">
-          <p>${this.text}</p>
-  <div class="btn-wrapper">
-    <a href=${this.link}>
-     <button class="btn">Details</button>
-    </a>
-  </div>
-  </div>
-  </div>
-  </div>`;
+        <h2 class="card-title">${this.title}</h2>
+        <details ?open="${this.fancy}">
+          <summary>Description</summary>
+          <div>
+            <slot>${this.text}</slot>
+          </div>
+        </details>
+      <div class="btn-wrapper">
+        <a href="${this.link}">
+          <button class="btn">Details</button>
+        </a>
+      </div>
+      </div>
+    </div>`;
   }
 
   static get properties() {
@@ -82,6 +118,7 @@ export class MyCard extends LitElement {
       alt: { type: String },
       text: { type: String },
       link: { type: String },
+      fancy: { type: Boolean, reflect: true },
     };
   }
 }
