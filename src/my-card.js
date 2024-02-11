@@ -25,6 +25,7 @@ export class MyCard extends LitElement {
     return css`
       :host {
         display: block;
+        padding: 20px;
       }
 
       :host([fancy]) {
@@ -44,6 +45,10 @@ export class MyCard extends LitElement {
 
       img {
         max-width: 100%;
+      }
+
+      .card.change-color {
+        background-color: red;
       }
 
       .btn {
@@ -96,7 +101,7 @@ export class MyCard extends LitElement {
       <img class="card-image" src="${this.img}" alt="${this.alt}">
       <div class="card-text">
         <h2 class="card-title">${this.title}</h2>
-        <details ?open="${this.fancy}">
+        <details ?open="${this.fancy}" @toggle="${this.openChanged}">
           <summary>Description</summary>
           <div>
             <slot>${this.text}</slot>
@@ -124,3 +129,5 @@ export class MyCard extends LitElement {
 }
 
 globalThis.customElements.define(MyCard.tag, MyCard);
+
+
