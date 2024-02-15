@@ -13,15 +13,47 @@ export class CounterApp extends LitElement {
 
   constructor() {
     super();
-    
+    this.counter = "0";
+    this.min = "0";
+    this.max = "10";
   }
 
   static get styles() {
     return css`
       :host {
+        display: inline-block;
+        padding: 12px;
+      }
+
+      :host([counter="18"]) .counterapp {
+        color: orange;
+      }
+
+      :host([counter="21"]) .counterapp {
+        color: green;
+      }
+      
+      .counterapp {
         display: block;
-        padding: 20px;
-      }`
+        margin: 0 auto;
+        background-color: white;
+        border: 2px solid black;
+        max-width: 50px;
+        text-align: center;
+        padding: 12px;
+        font-size: 30px;
+      }
+
+      .btnadd {
+        display: inline;
+        margin: 0 auto;
+      }
+
+      .btnsubtract {
+        display: inline;
+        margin: 0 auto;
+      }
+      `
     }
 
 
@@ -29,7 +61,11 @@ export class CounterApp extends LitElement {
   render() {
     return html`
     <div class="counterapp">
-        <counter-app counter="16" min="10" max="25"></counter-app>
+      <span>${this.counter}</span>
+    </div>
+    <div class="button-wrap">
+      <button class="btnadd">+</button>
+      <button class="btnsubtract">-</button>
     </div>
 
     `;
@@ -37,7 +73,9 @@ export class CounterApp extends LitElement {
 
   static get properties() {
     return {
-      
+      counter: { type: Number, relfect: true },
+      min: { type: String },
+      max: { type: String },
     };
   }
 }

@@ -32,6 +32,12 @@
   <polaris-chip title="Grants and Donations"></polaris-chip>
   <!-- this is going to take the tag and change the title -->
 
+  <h1>counter-app</h1>
+  <div class="counterapp">
+    <counter-app></counter-app>
+    <counter-app counter="20" min="5" max="30"></counter-app>
+  </div>
+
   <h1>my-card</h1>
   <div class="control-wrapper">
     <button id="duplicate">Duplicate Card</button>
@@ -57,6 +63,8 @@
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
+  <script type="module" src="./src/counter-app.js"></script>
+  
 
   <script>
     document.querySelector('#duplicate').addEventListener('click', function(e) {
