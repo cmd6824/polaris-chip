@@ -26,7 +26,7 @@ export class CounterApp extends LitElement {
       }
 
       :host([counter="18"]) .counterapp {
-        color: orange;
+        color: blue;
       }
 
       :host([counter="21"]) .counterapp {
@@ -36,7 +36,7 @@ export class CounterApp extends LitElement {
       .counterapp {
         display: block;
         margin: 0 auto;
-        background-color: white;
+        background-color: lightpink;
         border: 2px solid black;
         width: 100px;
         text-align: center;
@@ -46,14 +46,18 @@ export class CounterApp extends LitElement {
 
       .btnadd,
       .btnsubtract {
-        display: inline-flex;
+        display: inline-block;
         margin: 0 auto;
         text-align: center;
         font-size: 20px;
+        height: 30px;
+        width: 30px;
       }
 
       .button-wrap {
-        padding-left: 25px;
+        display: flex;
+        justify-content: center;
+        padding-top: 4px;
       }
 
       .btnadd:hover,
@@ -76,8 +80,8 @@ export class CounterApp extends LitElement {
       <h1 class="counter">${this.counter}</h1>
     </div>
     <div class="button-wrap">
-      <button class="btnadd" @click="${this.add}">+</button>
-      <button class="btnsubtract" @click="${this.subtract}">-</button>
+      <button class="btnadd" @click="${this.add}" ?disabled="${this.max === this.counter}">+</button>
+      <button class="btnsubtract" @click="${this.subtract}" ?disabled="${this.min === this.counter}">-</button>
     </div>
     </confetti-container>
     `;
