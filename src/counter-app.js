@@ -1,10 +1,5 @@
 import { LitElement, html, css } from 'lit';
 
-/**
- * Now it's your turn. Here's what we need to try and do
- * 1. 
- */
-
 export class CounterApp extends LitElement {
 
   static get tag() {
@@ -32,6 +27,7 @@ export class CounterApp extends LitElement {
       :host([counter="21"]) .counterapp {
         color: green;
       }
+
 
       .counterapp {
         display: block;
@@ -134,7 +130,7 @@ export class CounterApp extends LitElement {
     return {
       counter: { type: Number, reflect: true },
       min: { type: Number, reflect: true },
-      max: { type: Number, reflect: true },
+      max: { type: Number },
     };
   }
 }
