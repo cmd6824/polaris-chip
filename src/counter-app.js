@@ -81,7 +81,6 @@ export class CounterApp extends LitElement {
     </div>
     </confetti-container>
     `;
-
   }
 
   add() {
@@ -96,8 +95,18 @@ export class CounterApp extends LitElement {
     }
   }
 
+  changeCountNum() {
+    if (this.counter === this.max || this.counter === this.min) {
+      this.style.color = 'red';
+    }
+    else {
+      this.style.color = 'black';
+    }
+  }
+
   updated(changedProperties) {
     if (changedProperties.has('counter')) {
+      this.changeCountNum();
       // do your testing of the value and make it rain by calling makeItRain
       if (this.counter == 21) {
         this.makeItRain();
@@ -130,7 +139,7 @@ export class CounterApp extends LitElement {
     return {
       counter: { type: Number, reflect: true },
       min: { type: Number, reflect: true },
-      max: { type: Number },
+      max: { type: Number, reflect: true },
     };
   }
 }
