@@ -42,15 +42,17 @@ export class CampusAlert extends LitElement {
         display: flex;
         justify-content: center;
         align-items: center;
-
+        width: 100%;
       }
-
 
       .date {
         line-height: 1px;
       }
       
       .alert-msg {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
         padding-left: 4px;
       }
 
@@ -59,16 +61,16 @@ export class CampusAlert extends LitElement {
 
     toggleAlert() {
       this.opened = !this.opened;
+      localStorage.setItem("campus-alert-opened-state", this.opened);
     }
+
+    
+    
 
   render() {
     return html`
     <div class="alert-container" ?sticky='${this.sticky}'>
-      <div class="toggle-btn" @click='${this.toggleAlert}'>
-        <button class="expand-alert">
-          
-        </button>
-      </div>
+        <button class="expand-alert" @click='${this.toggleAlert}'>close</button>
         <div class="alert-msg">
           <h3>${this.message}</h3>
         </div>
