@@ -11,7 +11,8 @@ export class CampusAlert extends LitElement {
     this.date = "01-01-2024"
     this.message = "Default message alert"
     this.sticky = false;
-    this.opened = false;
+    this.opened = true;
+    this.alerttype = "notice";
   }
 
   static get styles() {
@@ -24,6 +25,14 @@ export class CampusAlert extends LitElement {
       :host[sticky] {
         position: sticky;
         top: 0;
+      }
+
+      :host[alerttype="warning"] {
+        background-color: yellow;
+      }
+
+      :host[alerttype="alert"] {
+        background-color: red;
       }
 
       .alert-container {
@@ -70,7 +79,7 @@ export class CampusAlert extends LitElement {
   render() {
     return html`
     <div class="alert-container" ?sticky='${this.sticky}'>
-        <button class="expand-alert" @click='${this.toggleAlert}'>close</button>
+        <button class="expand-alert" @click='${this.openAlert}'>close</button>
         <div class="alert-msg">
           <h3>${this.message}</h3>
         </div>
@@ -82,6 +91,11 @@ export class CampusAlert extends LitElement {
 
   }
 
+  openAlert() {
+    this.opened = true;
+
+  }
+
  
 
   static get properties() {
@@ -90,6 +104,7 @@ export class CampusAlert extends LitElement {
       date: { type: String },
       message: { type: String },
       sticky: { type: Boolean, reflect: true },
+      alerttype: { type: String },
 
     };
   }
