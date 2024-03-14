@@ -22,16 +22,16 @@ export class CampusAlert extends LitElement {
         padding: 12px;
       }
 
-      :host[sticky] {
+      :host([sticky]) {
         position: sticky;
         top: 0;
       }
 
-      :host[alerttype="warning"] {
+      :host([alerttype="warning"]) .alert-container {
         background-color: yellow;
       }
 
-      :host[alerttype="alert"] {
+      :host([alerttype="alert"]) .alert-container {
         background-color: red;
       }
 
@@ -74,12 +74,14 @@ export class CampusAlert extends LitElement {
     }
 
     
-    
 
   render() {
     return html`
-    <div class="alert-container" ?sticky='${this.sticky}'>
+    <div class="alert-container">
         <button class="expand-alert" @click='${this.openAlert}'>close</button>
+        <div class="open">
+
+        </div>
         <div class="alert-msg">
           <h3>${this.message}</h3>
         </div>
@@ -92,9 +94,12 @@ export class CampusAlert extends LitElement {
   }
 
   openAlert() {
-    this.opened = true;
+    return html`
     
+    `
   }
+
+
 
  
 
