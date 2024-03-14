@@ -93,7 +93,7 @@ export class CampusAlert extends LitElement {
 
   openAlert() {
     this.opened = true;
-
+    
   }
 
  
