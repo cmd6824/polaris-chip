@@ -35,6 +35,10 @@ export class CampusAlert extends LitElement {
         background-color: red;
       }
 
+      :host([alerttype="notice"]) .alert-container {
+        background-color: orange;
+      }
+
       .alert-container {
         background-color: orange;
         width: 100%;
@@ -60,9 +64,12 @@ export class CampusAlert extends LitElement {
       
       .alert-msg {
         max-height: 0;
-        overflow: hidden;
         transition: max-height 0.2s ease-out;
         padding-left: 4px;
+      }
+      
+      .hidden {
+        display: none;
       }
 
       `
@@ -78,25 +85,31 @@ export class CampusAlert extends LitElement {
   render() {
     return html`
     <div class="alert-container">
-        <button class="expand-alert" @click='${this.openAlert}'>close</button>
-        <div class="open">
-
-        </div>
-        <div class="alert-msg">
-          <h3>${this.message}</h3>
-        </div>
-        <div class="date">
+        <button id="expand-alert" @click='${this.openAlert}'>open</button>
+          <div id="alert-msg" class="hidden">
+            <p>${this.message}</p>
+          </div>
+          <div class="date">
             <p>${this.date}</p>
-        </div>
+          </div>
     </div>
     `;
 
   }
 
   openAlert() {
-    return html`
-    
-    `
+    const toggleButton = document.getElementById('expand-alert');
+    const textContainer = document.getElementById('alert-msg');
+
+    toggleButton.addEventListener('click', function() {
+      if (textContainer.classList.contains('hidden')) {
+        textContainer.classList.remove('hidden');
+        toggleButton.textContent = 'Hide Text';
+      } else {
+        textContainer.classList.add('hidden');
+        toggleButton.textContent = 'Show Text';
+      }
+    });
   }
 
 
