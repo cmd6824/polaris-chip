@@ -10,26 +10,78 @@ export class PartyUI extends DDD {
 
   constructor() {
     super();
-    
+    this.items = [];
+
   }
 
   static get styles() {
     return css`
       
+      :host {
+        display: block;
+        
+      }
+
+      input[type=text] {
+        width: 100%;
+      }
+
+      .userbtn {
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        height: fit-content;
+        width: fit-content;
+        color: var(--component-color, var(--ddd-theme-default-link));
+        border-top-style: ;
+        border-top-width: ;
+        border-right-style: ;
+        border-right-width: ;
+        border-bottom-style: ;
+        border-bottom-width: ;
+        border-left-style: ;
+        border-left-width: ;
+        border-image-source: ;
+        border-image-slice: ;
+        border-image-width: ;
+        border-image-outset: ;
+        border-image-repeat: ;
+        background-color: var(--component-background-color, transparent);
+        font-weight: var(--ddd-font-primary-medium);
+        text-decoration: none;
+        border-radius: var(--ddd-radius-xs);
+        border-color: var(--component-border-color, var(--ddd-theme-default-link));
+        padding: var(--simple-cta-button-padding, 0.75rem 0.75rem 0.75rem 1.5rem);
+        transition: all 0.2s ease-out 0s;
+      }
 
       `
     }
 
   render() {
     return html`
-    <div></div>
+    <div>
+      <button class="userbtn">Add User</button>
+    </div>
+    <form>
+      <label for="fname">First Name</label>
+      <input type="text" id="fname" name="fname">
+    </form>
+    <div>
+        ${this.items.map((item) => html`
+          <my-item title="${item.title}" @click="${this.targetClicked}" data-id="${item.id}">
+          ${item.content}
+          <strong>${item.coolness}</strong>
+          </my-item>
+        `)}
+      </div>
     
     `;
   }
 
   
-
-  updated(changedProperties) {
+/** updated(changedProperties) {
     if (changedProperties.has('')) {
       
       // do your testing of the value and make it rain by calling makeItRain
@@ -37,7 +89,8 @@ export class PartyUI extends DDD {
         this.makeItRain();
       }
     }
-  }
+  }*/
+  
   
   makeItRain() {
     // this is called a dynamic import. It means it won't import the code for confetti until this method is called
@@ -62,7 +115,8 @@ export class PartyUI extends DDD {
 
   static get properties() {
     return {
-      
+      items: { type Array },
+
     };
   }
 }
