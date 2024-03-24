@@ -10,7 +10,8 @@ export class PartyUI extends DDD {
 
   constructor() {
     super();
-    this.items = [];
+    this.userArray = [];
+    this.user = "";
 
   }
 
@@ -19,65 +20,76 @@ export class PartyUI extends DDD {
       
       :host {
         display: block;
-        
+        padding: 16px;
       }
 
-      input[type=text] {
-        width: 100%;
+      .my-div {
+        padding: var(--ddd-spacing-5);
+        margin: var(--ddd-spacing-2) var(--ddd-spacing-0);
+        color: var(--ddd-theme-default-keystoneYellow);
       }
 
-      .userbtn {
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        display: flex;
-        height: fit-content;
-        width: fit-content;
-        color: var(--component-color, var(--ddd-theme-default-link));
-        border-top-style: ;
-        border-top-width: ;
-        border-right-style: ;
-        border-right-width: ;
-        border-bottom-style: ;
-        border-bottom-width: ;
-        border-left-style: ;
-        border-left-width: ;
-        border-image-source: ;
-        border-image-slice: ;
-        border-image-width: ;
-        border-image-outset: ;
-        border-image-repeat: ;
-        background-color: var(--component-background-color, transparent);
-        font-weight: var(--ddd-font-primary-medium);
-        text-decoration: none;
-        border-radius: var(--ddd-radius-xs);
-        border-color: var(--component-border-color, var(--ddd-theme-default-link));
-        padding: var(--simple-cta-button-padding, 0.75rem 0.75rem 0.75rem 1.5rem);
-        transition: all 0.2s ease-out 0s;
+      .ui-container {
+        text-align: center;
+        background-color: var(--ddd-theme-default-potential75);
+        padding: 8px;
+        margin: 0 auto;
+        border: 2px solid black;
+        place-content: center;
       }
+
+      .char-container {
+        position: relative;
+        padding: 16px;
+      }
+
+      .del-btn {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
 
       `
     }
 
   render() {
     return html`
-    <div>
-      <button class="userbtn">Add User</button>
-    </div>
-    <form>
-      <label for="fname">First Name</label>
-      <input type="text" id="fname" name="fname">
-    </form>
-    <div>
-        ${this.items.map((item) => html`
-          <my-item title="${item.title}" @click="${this.targetClicked}" data-id="${item.id}">
-          ${item.content}
-          <strong>${item.coolness}</strong>
-          </my-item>
-        `)}
+    <div class="ui-container">
+      <div class="btnuserwrapper">
+        <input class="user-input" type="text" placeholder="Enter Username Here">
+        <button id="userbtn" @click="${this.addUser}">Add User</button>
       </div>
+      <div class="char-container">
+        ${this.userArray.map(element => this.createCharacter(element))}
+      </div>
+    </div>
+
     
     `;
+  }
+
+  createCharacter(name){
+
+    return html`
+        <rpg-character id="rpg" hat="random" seed= ${name} style= "height: 100px; width: 100px;"></rpg-character>
+        <button id="del-btn" @click="${this.delUser}">Delete User</button>
+    `;
+  }
+
+  userInput(username) {
+    this.user = username.target.value;
+  }
+
+  addUser(username) {
+    this.userArray.push(this.user);
+    this.shadowRoot.querySelector(".user-input").value = "";
+    this.requestUpdate();
+  }
+
+  delUser(username) {
+    
   }
 
   
@@ -115,7 +127,8 @@ export class PartyUI extends DDD {
 
   static get properties() {
     return {
-      items: { type Array },
+      userArray: { type: Array },
+      user: { type: String },
 
     };
   }
