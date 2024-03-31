@@ -11,7 +11,7 @@ export class PartyUI extends DDD {
   constructor() {
     super();
     this.userArray = [];
-    this.user = "";
+    this.user = null;
 
   }
 
@@ -25,7 +25,7 @@ export class PartyUI extends DDD {
 
       .ui-container {
         text-align: center;
-        background-color: var(--ddd-theme-default-potential75);
+        background-color: var(--ddd-theme-default-beaver70);
         padding: var(--ddd-spacing-5);
         margin: var(--ddd-spacing-2) var(--ddd-spacing-0);
         border: 2px solid black;
@@ -33,7 +33,16 @@ export class PartyUI extends DDD {
       }
 
       .userbtn {
-        background-color: var(--ddd-theme-default-skyBlue)
+        background-color: var(--ddd-theme-default-skyBlue);
+        font-size: 16px;
+        cursor: pointer;
+        border: var(--ddd-border-xs);
+        border-color: var(--ddd-theme-default-potentialMidnight);
+      }
+
+      .userbtn:focus,
+      .userbtn:hover {
+        background-color: var(--ddd-theme-default-potential50);
       }
 
       .char-container {
@@ -41,11 +50,32 @@ export class PartyUI extends DDD {
         padding: 16px;
       }
 
-      .del-btn {
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+      .user-list {
+        display: inline-flex;
+        flex-wrap: wrap;
+        border: var(--ddd-border-sm);
+        border-color: var(--ddd-theme-default-potentialMidnight);
+        margin: var(--ddd-spacing-4);
+        text-align: center;
+        place-content: center;
+      }
+
+      .userName {
+        color: var(--ddd-theme-default-discoveryCoral);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: clip;
+        width: 100%;
+      }
+
+      .delbtn {
+        background-color: var(--ddd-theme-default-skyBlue);
+        font-size: 16px;
+        margin: auto;
+        cursor: pointer;
+        border: var(--ddd-border-xs);
+        border-color: var(--ddd-theme-default-potentialMidnight);
+        text-align: center;
       }
 
 
@@ -54,38 +84,50 @@ export class PartyUI extends DDD {
 
   render() {
     return html`
-    <div class="ui-container">
-      <div class="btnuserwrapper">
-        <input id="user-input" type="text" placeholder="Enter Username Here">
-        <button class="userbtn" @click="${this.addUser}">Add User</button>
+    <confetti-container id="confetti">
+      <div class="ui-container">
+        <div class="btnuserwrapper">
+          <input id="user-input" type="text" placeholder="Enter Username Here" value="${this.user}" @input="${this.updateUser}" @keypress="${this.userInput}">
+          <button class="userbtn" @click="${this.addUser}">Add User</button>
+        </div>
+        <div class="char-container">
+          ${this.userArray.map((item) => html`
+          <div class="user-list">
+            <p class="userName">${item.name}</p>
+            <rpg-character seed="${item.name}"></rpg-character>
+            <button class="delbtn" @click="${this.delUser}">Delete User</button>
+          </div>
+          `)}
+        </div>
+        <button class="savebtn" @click="${this.saveUser}">Save</button>
       </div>
-      <div class="char-container">
-        ${this.userArray.map((item) => html`
-        <rpg-character seed="${item}"></rpg-character>
-
-        `)}
-      
-      </div>
-    </div>
-
-    
+    </confetti-container>
     `;
   }
 
-  createCharacter(username){
-
-   
-  }
 
   userInput(username) {
+    const inputValue = username.target.value;
+    const scrubVal = inputValue.replace(/[^a-z0-9]/g, "");
+    username.target.value = scrubVal.slice(0, 10);
+  }
+
+  updateUser(username) {
     this.user = username.target.value;
   }
 
-  addUser() {
-    const item = document.getElementById("user-input");
+  addUser(e) {
+    const randomNumber = globalThis.crypto.getRandomValues(new Uint32Array(1))[0];
+
+    const item = {
+      id: randomNumber,
+      name: this.user,
+    }
+
+    console.log(item);
     this.userArray.push(item);
-    console.log(this.userArray);
     this.requestUpdate();
+    console.log(this.userArray);
   }
 
   delUser(username) {
