@@ -33,7 +33,7 @@ export class PartyUI extends DDD {
       }
 
       .userbtn {
-        background-color: var(--ddd-theme-default-skyBlue);
+        background-color: var(--ddd-theme-default-opportunityGreen);
         font-size: 16px;
         cursor: pointer;
         border: var(--ddd-border-xs);
@@ -55,27 +55,34 @@ export class PartyUI extends DDD {
         flex-wrap: wrap;
         border: var(--ddd-border-sm);
         border-color: var(--ddd-theme-default-potentialMidnight);
+        border-radius: 20px;
+        background-color: var(--ddd-theme-default-creekMaxLight);
         margin: var(--ddd-spacing-4);
         text-align: center;
         place-content: center;
+        padding: var(--ddd-spacing-3);
       }
 
       .userName {
-        color: var(--ddd-theme-default-discoveryCoral);
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: clip;
+        color: var(--ddd-theme-default-original87Pink);
         width: 100%;
+        margin: var(--ddd-spacing-2);
       }
 
       .delbtn {
-        background-color: var(--ddd-theme-default-skyBlue);
+        background-color: salmon;
         font-size: 16px;
-        margin: auto;
+        width: 50%;
+        box-shadow: 10px;
         cursor: pointer;
         border: var(--ddd-border-xs);
         border-color: var(--ddd-theme-default-potentialMidnight);
-        text-align: center;
+        padding: var(--ddd-theme-spacing-4);
+      }
+
+      .delbtn:focus,
+      .delbtn:hover {
+        background-color: var(--ddd-theme-default-potential50);
       }
 
 
@@ -93,9 +100,9 @@ export class PartyUI extends DDD {
         <div class="char-container">
           ${this.userArray.map((item) => html`
           <div class="user-list">
-            <p class="userName">${item.name}</p>
             <rpg-character seed="${item.name}"></rpg-character>
-            <button class="delbtn" @click="${this.delUser}">Delete User</button>
+            <p class="userName">${item.name}</p>
+            <button class="delbtn" data-user-id="${item.id}" @click="${this.delUser}">Delete User</button>
           </div>
           `)}
         </div>
@@ -130,8 +137,8 @@ export class PartyUI extends DDD {
     console.log(this.userArray);
   }
 
-  delUser(username) {
-    
+  delUser(e) {
+    this.userArray = this.userArray.filter(item => item.id !== parseInt(e.target.getAttribute('data-user-id')));
   }
 
   
