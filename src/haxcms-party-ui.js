@@ -85,6 +85,18 @@ export class PartyUI extends DDD {
         background-color: var(--ddd-theme-default-potential50);
       }
 
+      .savebtn {
+        cursor: pointer;
+        background-color: white;
+        border: var(--ddd-border-xs);
+        border-color: var(--ddd-theme-default-potentialMidnight);
+      }
+
+      .savebtn:focus,
+      .savebtn:hover {
+        background-color: lightgray;
+      }
+
 
       `
     }
@@ -131,9 +143,10 @@ export class PartyUI extends DDD {
       name: this.user,
     }
 
-    console.log(item);
     this.userArray.push(item);
     this.requestUpdate();
+    this.shadowRoot.querySelector("#user-input").value = "";
+    this.shadowRoot.querySelector("#user-input").focus();
     console.log(this.userArray);
   }
 
@@ -141,16 +154,10 @@ export class PartyUI extends DDD {
     this.userArray = this.userArray.filter(item => item.id !== parseInt(e.target.getAttribute('data-user-id')));
   }
 
-  
-/** updated(changedProperties) {
-    if (changedProperties.has('')) {
-      
-      // do your testing of the value and make it rain by calling makeItRain
-      if () {
-        this.makeItRain();
-      }
-    }
-  }*/
+  saveUser() {
+    this.makeItRain();
+    
+  }
   
   
   makeItRain() {
