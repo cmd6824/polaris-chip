@@ -12,6 +12,7 @@ export class PartyUI extends DDD {
     super();
     this.userArray = [];
     this.user = null;
+    this.userStore = [];
 
   }
 
@@ -88,6 +89,7 @@ export class PartyUI extends DDD {
       .savebtn {
         cursor: pointer;
         background-color: white;
+        font-size: 16px;
         border: var(--ddd-border-xs);
         border-color: var(--ddd-theme-default-potentialMidnight);
       }
@@ -114,11 +116,11 @@ export class PartyUI extends DDD {
           <div class="user-list">
             <rpg-character seed="${item.name}"></rpg-character>
             <p class="userName">${item.name}</p>
-            <button class="delbtn" data-user-id="${item.id}" @click="${this.delUser}">Delete User</button>
+            <button class="delbtn" user-id="${item.id}" @click="${this.delUser}">Delete User</button>
           </div>
           `)}
         </div>
-        <button class="savebtn" @click="${this.saveUser}">Save</button>
+        <button class="savebtn" @click="${this.saveUser}" ?disabled = "${this.userArray.length == 0}">Save</button>
       </div>
     </confetti-container>
     `;
@@ -127,7 +129,7 @@ export class PartyUI extends DDD {
 
   userInput(username) {
     const inputValue = username.target.value;
-    const scrubVal = inputValue.replace(/[^a-z0-9]/g, "");
+    const scrubVal = inputValue.toLowerCase().replace(/[^a-z0-9]/g, "");
     username.target.value = scrubVal.slice(0, 10);
   }
 
@@ -136,27 +138,40 @@ export class PartyUI extends DDD {
   }
 
   addUser(e) {
-    const randomNumber = globalThis.crypto.getRandomValues(new Uint32Array(1))[0];
+    if (this.shadowRoot.querySelector("#user-input").value !== "") {
+      const randomNumber = globalThis.crypto.getRandomValues(new Uint32Array(1))[0];
 
-    const item = {
-      id: randomNumber,
-      name: this.user,
+      const item = {
+        id: randomNumber,
+        name: this.user
+      }
+
+      this.userArray.push(item);
+      this.requestUpdate();
+      this.shadowRoot.querySelector("#user-input").value = "";
+      this.shadowRoot.querySelector("#user-input").focus();
+      console.log(this.userArray);
+      }
+    else {
+      window.alert("Please enter a username to add.");
     }
-
-    this.userArray.push(item);
-    this.requestUpdate();
-    this.shadowRoot.querySelector("#user-input").value = "";
-    this.shadowRoot.querySelector("#user-input").focus();
-    console.log(this.userArray);
+    
   }
 
   delUser(e) {
-    this.userArray = this.userArray.filter(item => item.id !== parseInt(e.target.getAttribute('data-user-id')));
+    this.userArray = this.userArray.filter(item => item.id !== parseInt(e.target.getAttribute('user-id')));
   }
 
   saveUser() {
-    this.makeItRain();
-    
+    if (this.userArray.length >= 1) {
+      this.makeItRain();
+      console.log("Party saved.", this.userArray);  
+      for (var i=0;i<this.userArray.length;i++) {
+        this.userStore.push(this.userArray[i]["name"]);
+      }    
+      alert("Party Saved. Users in Party: " + JSON.stringify(this.userStore));
+      
+    }
   }
   
   
@@ -175,6 +190,7 @@ export class PartyUI extends DDD {
     return {
       userArray: { type: Array },
       user: { type: String },
+      userStore: { type: Array },
 
     };
   }
