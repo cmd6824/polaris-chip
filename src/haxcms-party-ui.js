@@ -30,7 +30,10 @@ export class PartyUI extends DDD {
         padding: var(--ddd-spacing-5);
         margin: var(--ddd-spacing-2) var(--ddd-spacing-0);
         border: 2px solid black;
-        place-content: center;
+        place-content: top;
+        width: 95vw;
+        height: 95vh;
+        flex-wrap: wrap;
       }
 
       .userbtn {
@@ -39,6 +42,13 @@ export class PartyUI extends DDD {
         cursor: pointer;
         border: var(--ddd-border-xs);
         border-color: var(--ddd-theme-default-potentialMidnight);
+        max-width: 100%;
+      }
+
+      .btnuserwrapper {
+        scale: 2;
+        padding: 30px;
+        
       }
 
       .userbtn:focus,
@@ -92,6 +102,11 @@ export class PartyUI extends DDD {
         font-size: 16px;
         border: var(--ddd-border-xs);
         border-color: var(--ddd-theme-default-potentialMidnight);
+        scale: 2;
+      }
+
+      .savebtn:disabled {
+        cursor: not-allowed;
       }
 
       .savebtn:focus,
